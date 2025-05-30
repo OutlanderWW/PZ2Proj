@@ -1,0 +1,29 @@
+@model List<InvestigationSupportSystem.Models.Case>
+@{
+    ViewData["Title"] = "Cases";
+}
+<h2>Case List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>Persons</th>
+            <th>Documents</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Title</td>
+                <td>@c.Status</td>
+                <td>@c.StartDate.ToShortDateString()</td>
+                <td>@c.Persons?.Count ?? 0</td>
+                <td>@c.Documents?.Count ?? 0</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Account/Logout" class="btn btn-danger">Logout</a>

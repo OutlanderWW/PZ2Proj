@@ -1,0 +1,27 @@
+@model List<InvestigationSupportSystem.Models.Person>
+@{
+    ViewData["Title"] = "Persons";
+}
+<h2>Persons Involved</h2>
+<a class="btn btn-success" href="/Persons/Create">Add New</a>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Case</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.FullName</td>
+                <td>@p.RoleInCase</td>
+                <td>@p.Address</td>
+                <td>@p.Case?.Title</td>
+            </tr>
+        }
+    </tbody>
+</table>

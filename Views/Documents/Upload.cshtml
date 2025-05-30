@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Upload Document";
+}
+<h2>Upload Document</h2>
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>File</label>
+        <input type="file" name="file" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input type="text" name="description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Case ID</label>
+        <input type="number" name="caseId" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>

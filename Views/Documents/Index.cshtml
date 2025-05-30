@@ -1,0 +1,25 @@
+@model List<InvestigationSupportSystem.Models.Document>
+@{
+    ViewData["Title"] = "Documents";
+}
+<h2>Documents</h2>
+<a class="btn btn-success" href="/Documents/Upload">Upload New</a>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Description</th>
+            <th>Case</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.FileName</td>
+                <td>@d.Description</td>
+                <td>@d.Case?.Title</td>
+            </tr>
+        }
+    </tbody>
+</table>
