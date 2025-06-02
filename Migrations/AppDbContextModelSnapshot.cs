@@ -23,6 +23,10 @@ namespace InvestigationSupportSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
@@ -65,6 +69,21 @@ namespace InvestigationSupportSystem.Migrations
                     b.HasIndex("CaseId");
 
                     b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("InvestigationSupportSystem.Models.OfficerCase", b =>
+                {
+                    b.Property<int>("OfficerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CaseId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("OfficerId", "CaseId");
+
+                    b.HasIndex("CaseId");
+
+                    b.ToTable("OfficerCases");
                 });
 
             modelBuilder.Entity("InvestigationSupportSystem.Models.Person", b =>
@@ -137,6 +156,25 @@ namespace InvestigationSupportSystem.Migrations
                     b.Navigation("Case");
                 });
 
+            modelBuilder.Entity("InvestigationSupportSystem.Models.OfficerCase", b =>
+                {
+                    b.HasOne("InvestigationSupportSystem.Models.Case", "Case")
+                        .WithMany("OfficerCases")
+                        .HasForeignKey("CaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvestigationSupportSystem.Models.User", "Officer")
+                        .WithMany()
+                        .HasForeignKey("OfficerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Case");
+
+                    b.Navigation("Officer");
+                });
+
             modelBuilder.Entity("InvestigationSupportSystem.Models.Person", b =>
                 {
                     b.HasOne("InvestigationSupportSystem.Models.Case", "Case")
@@ -151,6 +189,8 @@ namespace InvestigationSupportSystem.Migrations
             modelBuilder.Entity("InvestigationSupportSystem.Models.Case", b =>
                 {
                     b.Navigation("Documents");
+
+                    b.Navigation("OfficerCases");
 
                     b.Navigation("Persons");
                 });

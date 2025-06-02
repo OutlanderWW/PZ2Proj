@@ -1,8 +1,18 @@
 @model List<InvestigationSupportSystem.Models.Case>
 @{
-    ViewData["Title"] = "Cases";
+    ViewData["Title"] = "All Cases";
+    var assignedOnly = Context.Request.Query["assigned"] == "true";
 }
-<h2>Case List</h2>
+<h2>@(assignedOnly ? "Your Assigned Cases" : "All Cases")</h2>
+<a class="btn btn-success mb-2" href="/Cases/Create">Add New Case</a>
+@if (assignedOnly)
+{
+    <a class="btn btn-secondary mb-2 ml-2" href="/Cases">Show All Cases</a>
+}
+else
+{
+    <a class="btn btn-secondary mb-2 ml-2" href="/Cases?assigned=true">Show Assigned Cases</a>
+}
 <table class="table">
     <thead>
         <tr>
@@ -11,17 +21,28 @@
             <th>Start Date</th>
             <th>Persons</th>
             <th>Documents</th>
+            <th>Officers</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var c in Model)
         {
+            var officerNames = (c.OfficerCases != null && c.OfficerCases.Any())
+                ? string.Join(", ", c.OfficerCases.Select(oc => oc.Officer != null ? oc.Officer.Name : "[unknown]"))
+                : "";
+
             <tr>
                 <td>@c.Title</td>
                 <td>@c.Status</td>
                 <td>@c.StartDate.ToShortDateString()</td>
                 <td>@c.Persons?.Count ?? 0</td>
                 <td>@c.Documents?.Count ?? 0</td>
+                <td>@officerNames</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="/Cases/Edit/@c.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="/Cases/Delete/@c.Id">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

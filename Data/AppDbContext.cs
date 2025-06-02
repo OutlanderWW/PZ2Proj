@@ -10,7 +10,16 @@ namespace InvestigationSupportSystem.Data
         public DbSet<Case> Cases { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<OfficerCase> OfficerCases { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<OfficerCase>()
+        .HasKey(oc => new { oc.OfficerId, oc.CaseId });
+}
+        
     }
 }
