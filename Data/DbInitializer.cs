@@ -37,10 +37,15 @@ namespace InvestigationSupportSystem.Data
                 {
                     OfficerId= 2, Officer=sample, CaseId=1, Case=samplecase
                 };
+                var samplecase2 = new Case
+                {
+                    Title ="Sample Case2", Description="This is a sample case for testing2", StartDate=new DateTime(2000, 05,05), Status="Open"
+                };
 
                 context.Users.Add(admin);
                 context.Users.Add(sample);
                 context.Cases.Add(samplecase);
+                context.Cases.Add(samplecase2);
                 context.OfficerCases.Add(table);
                 context.SaveChanges();
             }

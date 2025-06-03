@@ -16,7 +16,7 @@ namespace InvestigationSupportSystem.Controllers
         {
             _context = context;
         }
-public IActionResult Index(bool assigned = false)
+        public IActionResult Index(bool assigned = false)
         {
             var query = _context.Cases
                 .Include(c => c.Persons)
@@ -34,22 +34,22 @@ public IActionResult Index(bool assigned = false)
             return View(query.ToList());
         }
         [HttpGet]
-       public IActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Case c)
+        public IActionResult Create(Case c)//string title, string desc, DateTime sdate, string status)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Cases.Add(c);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(c);
+            // Case c = new Case { Title=title, Description=desc, StartDate=sdate, Status=status };
+
+            _context.Cases.Add(c);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
+            // return View();
         }
         public IActionResult Edit(int id)
         {
@@ -60,15 +60,13 @@ public IActionResult Index(bool assigned = false)
         [HttpPost]
         public IActionResult Edit(Case c)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Cases.Update(c);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(c);
+            _context.Cases.Update(c);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+
+            // return View(c);
         }
-         public IActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             var c = _context.Cases.Find(id);
             if (c != null)
@@ -78,6 +76,17 @@ public IActionResult Index(bool assigned = false)
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult View(int id)
+        {
+            var c = _context.Cases.Find(id);
+            return View(c);
+        }
+        // [HttpPost]
+        // public IActionResult View(Case c)
+        // {
+        //     return RedirectToAction("Index");
+        // }
 
 
     }

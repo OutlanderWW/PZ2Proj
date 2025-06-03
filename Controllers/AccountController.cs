@@ -25,7 +25,7 @@ namespace InvestigationSupportSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string badgeNumber, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.BadgeNumber == badgeNumber);
+            Models.User user = _context.Users.FirstOrDefault(u => u.BadgeNumber == badgeNumber);
             if (user != null && _hashing.VerifyPassword(password, user.PasswordHash))
             {
                 var claims = new List<Claim>
@@ -34,6 +34,12 @@ namespace InvestigationSupportSystem.Controllers
                     new Claim(ClaimTypes.Role, user.Role),
                     new Claim("UserId", user.Id.ToString())
                 };
+                if (user.Role != "Admin")
+                {
+                    HttpContext.Session.SetString("Admin", "False");
+                }
+                else { HttpContext.Session.SetString("Admin", "True");}
+                HttpContext.Session.SetString("logged", "true");
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
@@ -46,6 +52,7 @@ namespace InvestigationSupportSystem.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
     }

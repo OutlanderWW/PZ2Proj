@@ -11,5 +11,12 @@ namespace InvestigationSupportSystem.Models
         public ICollection<Person> Persons { get; set; }
         public ICollection<Document> Documents { get; set; }
         public ICollection<OfficerCase> OfficerCases { get; set; }
-    }
+    //     public Case(string title, string desc, DateTime sd, string status)
+    //     {
+    //         Title = title;
+    //         Description = desc;
+    //         StartDate = sd;
+    //         Status = status;
+    // }
 }
+    }
