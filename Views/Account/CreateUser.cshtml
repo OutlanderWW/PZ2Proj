@@ -1,0 +1,43 @@
+@model InvestigationSupportSystem.Models.User
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h2>Create New User</h2>
+
+<form asp-action="CreateUser" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group"></div>
+    <label asp-for="BadgeNumber"></label>
+    <input asp-for="BadgeNumber" class="form-control" />
+    <span asp-validation-for="BadgeNumber" class="text-danger"></span>
+</div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Role"></label>
+        <select asp-for="Role" class="form-control">
+            <option value="Admin">Admin</option>
+            <option value="Officer">Officer</option>
+        </select>
+        <span asp-validation-for="Role" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" asp-controller="Cases" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
